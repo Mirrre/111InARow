@@ -16,26 +16,28 @@
                             <button class="close-button" @click="closeLogin">关闭</button>
                             <input type="text" id="username" name="username" placeholder="请输入用户名"><br><br>
                             <input type="password" id="password" name="password" placeholder="请输入密码"><br><br>
-                            <button @click="logged" class="loggedBtn">登录</button>
+                            <button @click="performAuthentication(isLogin)" class="isLoginBtn">{{ !isLogin?"登录":"注册" }}</button>
+                            <span class="registerBtn" @click="isLogin = !isLogin">{{ isLogin ? '登录' : '注册' }}</span>
                             <!-- 显示头像 -->
                         </form>
                     </div>
                 </div>
-                <div v-if="isLogged" class="user-avatar">
-                        <!-- <img src="~@/assets/girl.png" alt=""> -->
-                </div>
-
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import {Login,Register} from '@/api/login.js'
 export default {
     data() {
         return {
             showLoginPopup: false, // 初始时不显示登录弹窗
-            isLogged: false//
+            isisLogin: false,
+            loginInfo:{
+                username:"",
+                password:""
+            }
         };
     },
     methods: {
@@ -45,10 +47,34 @@ export default {
         closeLogin() {
             this.showLoginPopup = false;
         },
-        logged() {
+        isLogin() {
             this.showLoginPopup = false;
-            this.isLogged = true; // 用户已登录
-            
+            this.isisLogin = true; // 用户已登录
+        },
+        performAuthentication(isLogin) {
+            if (isLogin) {
+                Login(this.loginInfo)
+                    .then(response => {
+                        // 处理登录成功的情况
+                        console.log('登录成功', response);
+                    })
+                    .catch(error => {
+                        // 处理登录失败的情况
+                        console.error('登录失败', error);
+
+                    });
+            } else {
+                // 执行注册逻辑
+                Register(this.loginInfo)
+                    .then(response => {
+                        // 处理注册成功的情况
+                        console.log('注册成功', response);
+                    })
+                    .catch(error => {
+                        // 处理注册失败的情况
+                        console.error('注册失败', error);
+                    });
+            }
         }
     },
 };
@@ -109,7 +135,7 @@ export default {
             // z-index: 1;
         }
 
-        .user-avatar{
+        .user-avatar {
             color: #000;
             width: 38px;
             height: 38px;
@@ -159,14 +185,23 @@ export default {
             border-radius: 5px;
         }
 
-        .loggedBtn {
+        .isLoginBtn {
             width: 104px;
             height: 38px;
             line-height: 38px;
             background-color: #06a7e1;
             cursor: pointer;
-            margin: 20px 50px;
+            margin: 20px 40px;
             border-radius: 10px;
+        }
+
+        .registerBtn {
+            display: block;
+            color: #06a7e1;
+            font-size: 30rpx;
+            bottom: 0px;
+            text-align: end;
+            cursor: pointer;
         }
     }
 }

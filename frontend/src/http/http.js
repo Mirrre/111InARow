@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // 请求根路径
-const baseURL = axios.create({ baseURL: 'https://www.fastmock.site/mock/974b3730b92341efc3b88c18c3490fc0/video' })
+const baseURL = axios.create({ baseURL: 'http://localhost:8080' })
 
 baseURL.interceptors.request.use((response) => {
     return response;
