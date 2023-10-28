@@ -35,12 +35,12 @@ var BackgroundUrls = []string{
 }
 
 var Signatures = []string{
-	"Injustice anywhere is a threat to justice everywhere.",
-	"Be the change that you wish to see in the world.",
-	"Imperfection is beauty, madness is genius and it's better to be absolutely ridiculous than absolutely boring.",
-	"Success is not final, failure is not fatal: It is the courage to continue that counts.",
-	"Be yourself; everyone else is already taken.",
-	"The secret of getting ahead is getting started.",
+	"我相信人生最美的风景不在远方，而是在每一个细微的瞬间，于平凡中发现不凡，于日常中感受奇迹，用心灵的眼睛欣赏这个世界的美丽。",
+	"在这个喧嚣的世界里，我选择保持内心的宁静，追求自我成长和心灵的宽广，成为那个无论风雨如何，都能散发光芒的人。",
+	"生命如同一本书，我选择用勇气和冒险的笔触书写，用热情和坚持的章节编织，让每一页都闪耀着真实、勇敢和无限可能。",
+	"我相信人生的真正意义不在于追逐金钱和功名，而是在于散播爱与善良，用自己的存在为世界带来一丝温暖和美好。",
+	"我视挫折为成长的阶梯，相信坚持和努力的力量，每一次跌倒都是为了更坚定地站起来，继续向前，追寻心中远大的梦想。",
+	"在这个瞬息万变的时代，我选择保持真实，与自己的内心对话，倾听内在的声音，成为一个与自己和谐相处的灵魂旅者。",
 }
 
 // User 表示应用中的用户
