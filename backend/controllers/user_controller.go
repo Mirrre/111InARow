@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"app/models"
+	"app/responses"
 	"app/services"
 	"app/utils"
 	"fmt"
@@ -12,14 +13,20 @@ import (
 // Register 处理用户注册的API请求
 func Register(c *gin.Context) {
 	var user models.User
-	user.Username = c.Query("username")
-	user.Password = c.Query("password")
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, responses.RegisterResponse{
+			StatusCode: 1,
+			StatusMsg:  "接收用户注册数据失败",
+			UserID:     0,
+			Token:      "",
+		})
+	}
 	if len(user.Username) < 6 || len(user.Password) < 6 || len(user.Username) > 25 || len(user.Password) > 25 {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"status_code": 1,
-			"status_msg":  "用户名和密码不得为空，且长度应在 6 - 25 个字符之间。",
-			"user_id":     nil,
-			"username":    user.Username,
+		c.JSON(http.StatusBadRequest, responses.RegisterResponse{
+			StatusCode: 1,
+			StatusMsg:  "用户名和密码不得为空，且长度应在 6 - 25 个字符之间。",
+			UserID:     0,
+			Token:      "",
 		})
 		fmt.Println(http.StatusBadRequest, "用户名和密码不得为空，且长度应在 6 - 25 个字符之间。")
 		return
@@ -33,20 +40,21 @@ func Register(c *gin.Context) {
 		// 生成新Token
 		newToken, err := utils.GenerateToken(user.ID)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"status_code": 1,
-				"status_msg":  "生成token令牌失败。",
-				"user_id":     user.ID,
+			c.JSON(http.StatusInternalServerError, responses.RegisterResponse{
+				StatusCode: 1,
+				StatusMsg:  "生成token令牌失败。",
+				UserID:     0,
+				Token:      "",
 			})
 			fmt.Println(http.StatusInternalServerError, "生成token令牌失败。")
 			return
 		}
 
-		c.JSON(http.StatusCreated, gin.H{
-			"status_code": 0,
-			"status_msg":  "注册成功!",
-			"user_id":     user.ID,
-			"token":       newToken,
+		c.JSON(http.StatusCreated, responses.RegisterResponse{
+			StatusCode: 0,
+			StatusMsg:  "注册成功",
+			UserID:     user.ID,
+			Token:      newToken,
 		})
 		fmt.Println(http.StatusCreated, "注册成功!")
 		fmt.Println(user.ID, user.Username, newToken)
@@ -58,11 +66,14 @@ func Register(c *gin.Context) {
 func Login(c *gin.Context) {
 	var user models.User
 	var inputUser models.User
-
-	// 提取用户名和密码
-	inputUser.Username = c.Query("username")
-	inputUser.Password = c.Query("password")
-
+	if err := c.ShouldBindJSON(&inputUser); err != nil {
+		c.JSON(http.StatusBadRequest, responses.RegisterResponse{
+			StatusCode: 1,
+			StatusMsg:  "接收用户注册数据失败",
+			UserID:     0,
+			Token:      "",
+		})
+	}
 	// 验证用户名密码非空
 	if inputUser.Username == "" || inputUser.Password == "" {
 		c.JSON(http.StatusUnauthorized, gin.H{
@@ -81,20 +92,63 @@ func Login(c *gin.Context) {
 	// 生成新Token
 	newToken, err := utils.GenerateToken(user.ID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"status_code": 1,
-			"status_msg":  "生成token令牌失败。",
-			"user_id":     user.ID,
+		c.JSON(http.StatusInternalServerError, responses.LoginResponse{
+			StatusCode: 1,
+			StatusMsg:  "生成token令牌失败。",
+			Token:      "",
+			UserID:     user.ID,
 		})
 		fmt.Println(http.StatusInternalServerError, "生成token令牌失败。")
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"status_code": 0,
-		"status_msg":  "登录成功",
-		"user_id":     user.ID,
-		"token":       newToken,
+	c.JSON(http.StatusOK, responses.LoginResponse{
+		StatusCode: 0,
+		StatusMsg:  "登录成功",
+		Token:      newToken,
+		UserID:     user.ID,
 	})
 	fmt.Println(http.StatusOK, "登录成功")
+}
+
+type UserId struct {
+	UserId int `json:"user_id"`
+}
+
+func GetUser(c *gin.Context) {
+	var userId UserId
+	err := c.ShouldBindJSON(userId) //从json中获取user_id
+
+	if err != nil || userId.UserId <= 0 {
+		c.JSON(http.StatusBadRequest, responses.UserResponse{
+			StatusCode: 1,
+			StatusMsg:  "目标用户 ID 无效。",
+			User:       responses.User{},
+		})
+		return
+	}
+	var user models.User
+	// 获取用户信息
+	isFollowed, err := services.GetUser(&user, userId.UserId, c)
+	if err == nil {
+		userResponse := responses.User{
+			ID:              user.ID,
+			Name:            user.Username,
+			FollowCount:     user.Profile.FollowCount,
+			IsFollowed:      isFollowed,
+			Avatar:          user.Profile.Avatar,
+			BackgroundImage: user.Profile.Background,
+			Signature:       user.Profile.Signature,
+			TotalFavorited:  user.Profile.TotalFavorited,
+			WorkCount:       user.Profile.WorkCount,
+			FavoriteCount:   user.Profile.FavoriteCount,
+		}
+		fmt.Println(http.StatusOK, userResponse)
+		c.JSON(http.StatusOK, responses.UserResponse{
+			StatusCode: 0,
+			StatusMsg:  "OK",
+			User:       userResponse,
+		})
+	}
+
 }
