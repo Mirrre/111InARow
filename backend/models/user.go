@@ -17,12 +17,12 @@ func getRandomIndex() int {
 }
 
 var AvatarUrls = []string{
-	"https://c-ssl.duitang.com/uploads/item/202102/04/20210204151116_snwek.jpg",
-	"https://c-ssl.duitang.com/uploads/item/202102/04/20210204151117_ufhjb.jpg",
-	"https://c-ssl.duitang.com/uploads/item/202102/04/20210204151118_ytkwe.jpg",
-	"https://c-ssl.duitang.com/uploads/item/202102/04/20210204151119_mtxcj.jpg",
-	"https://c-ssl.duitang.com/uploads/item/202102/04/20210204151120_xxfqi.jpg",
-	"https://c-ssl.duitang.com/uploads/item/202102/04/20210204151123_jungh.jpg",
+	"http://s3315jx3y.hn-bkt.clouddn.com/cover/test4.png",
+	"http://s3315jx3y.hn-bkt.clouddn.com/cover/test3.png",
+	"http://s3315jx3y.hn-bkt.clouddn.com/cover/test6.png",
+	"http://s3315jx3y.hn-bkt.clouddn.com/cover/test11.png",
+	"http://s3315jx3y.hn-bkt.clouddn.com/cover/test9.png",
+	"http://s3315jx3y.hn-bkt.clouddn.com/cover/46D309E627E5AAFDE9149C36E9781302.png",
 }
 
 var BackgroundUrls = []string{
@@ -46,39 +46,42 @@ var Signatures = []string{
 // User 表示应用中的用户
 type User struct {
 	gorm.Model
-	Username string `gorm:"unique"`
-	Password string
-	Profile  UserProfile `gorm:"foreignKey:UserID"`
+	Username       string `gorm:"unique" json:"username"`
+	Password       string `json:"password"`
+	Avatar         string `json:"avatar"`                          //头像
+	FollowCount    int    `gorm:"default:0" json:"follow_count"`   // 关注总数
+	FollowerCount  int    `gorm:"default:0" json:"follower_count"` // 粉丝总数
+	TotalFavorited int    `gorm:"default:0" json:"totalFavorited"` // 获赞数量
+	WorkCount      int    `gorm:"default:0" json:"work_count"`     // 作品数
+	FavoriteCount  int    `gorm:"default:0" json:"favorite_count"` // 喜欢数
+
 }
 
 // UserProfile 表示用户的额外信息
-type UserProfile struct {
-	gorm.Model
-	UserID         uint
-	Avatar         string //头像
-	Background     string //背景
-	Signature      string //个人简介
-	FollowCount    int    `gorm:"default:0"` // 关注总数
-	FollowerCount  int    `gorm:"default:0"` // 粉丝总数
-	TotalFavorited int    `gorm:"default:0"` // 获赞数量
-	WorkCount      int    `gorm:"default:0"` // 作品数
-	FavoriteCount  int    `gorm:"default:0"` // 喜欢数
-}
-
-func (u *User) AfterCreate(tx *gorm.DB) (err error) {
-	userProfile := UserProfile{
-		UserID:         u.ID,
-		Avatar:         AvatarUrls[getRandomIndex()],
-		Background:     BackgroundUrls[getRandomIndex()],
-		Signature:      Signatures[getRandomIndex()],
-		FollowCount:    0,
-		FollowerCount:  0,
-		TotalFavorited: 0,
-		WorkCount:      0,
-		FavoriteCount:  0,
-	}
-	if err = tx.Create(&userProfile).Error; err != nil {
-		return err
-	}
-	return nil
-}
+//type UserProfile struct {
+//	//gorm.Model
+//	//UserID uint `json:"user_id"`
+//
+//	Background     string `json:"background"`                      //背景
+//	Signature      string `json:"signature"`                       //个人简介
+//
+//
+//}
+//
+//func (u *User) AfterCreate(tx *gorm.DB) (err error) {
+//	userProfile := UserProfile{
+//		UserID:         u.ID,
+//		Avatar:         AvatarUrls[getRandomIndex()],
+//		Background:     BackgroundUrls[getRandomIndex()],
+//		Signature:      Signatures[getRandomIndex()],
+//		FollowCount:    0,
+//		FollowerCount:  0,
+//		TotalFavorited: 0,
+//		WorkCount:      0,
+//		FavoriteCount:  0,
+//	}
+//	if err = tx.Create(&userProfile).Error; err != nil {
+//		return err
+//	}
+//	return nil
+//}
