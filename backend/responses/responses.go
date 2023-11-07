@@ -120,3 +120,9 @@ type CommentResItem struct {
 	Content    string    `json:"content"`
 	CreateDate time.Time `json:"create_date"`
 }
+
+type CommentListResponse struct {
+	StatusCode  int               `json:"status_code"`
+	StatusMsg   string            `json:"status_msg"`
+	CommentList *[]CommentResItem `json:"comment_list"`
+}

@@ -12,28 +12,30 @@ import (
 	"time"
 )
 
-type PublishRequest struct {
-	Title  string `json:"title"`
-	UserId string `json:"user_id"`
-}
+//type PublishRequest struct {
+//	Title  string `json:"title"`
+//	UserId string `json:"user_id"`
+//}
 
 func Publish(c *gin.Context) {
 	//token := c.PostForm("token")
 	//title := c.PostForm("title")
-	request := PublishRequest{}
-	if err := c.ShouldBindJSON(&request); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"status_code": 1,
-			"status_msg":  "获取数据错误",
-		})
-		fmt.Println("获取数据错误")
-		return
-	}
-	userId, err := strconv.Atoi(request.UserId)
-	title := request.Title
+	//request := PublishRequest{}
+	//if err := c.ShouldBindJSON(&request); err != nil {
+	//	c.JSON(http.StatusBadRequest, gin.H{
+	//		"status_code": 1,
+	//		"status_msg":  "获取数据错误",
+	//	})
+	//	fmt.Println("获取数据错误")
+	//	return
+	//}
+	//userId, err := strconv.Atoi(request.UserId)
+	//title := request.Title
 	//userid, err := utils.ValidateToken(token)
 	//userId := int(userid)
-
+	id := c.DefaultQuery("user_id", "")
+	title := c.DefaultQuery("title", "")
+	userId, err := strconv.Atoi(id)
 	// 获取上传视频
 	videoFile, err := c.FormFile("data")
 	if err != nil {
@@ -97,6 +99,7 @@ func Publish(c *gin.Context) {
 				VideoUrl: videoUrl,
 				Title:    title,
 				Mtime:    time.Now().String(),
+				UserName: user.Username,
 			}
 			db.Create(&newVideo)
 			c.JSON(http.StatusOK, gin.H{

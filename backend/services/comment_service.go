@@ -9,8 +9,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -71,6 +73,18 @@ func Comment(userId int, videoId int, content string, c *gin.Context) (err error
 		StatusMsg:  "评论成功",
 	})
 
+	// 将数据存入redis
+	z := redis.Z{
+		Score:  float64(comment.CreatedAt.Unix()), // 使用评论的创建时间作为分数（Score）
+		Member: comment.Content,                   // 使用评论内容作为成员（Member）
+	}
+
+	err = config.Rdb.ZAdd(ctx, "video_comments:"+strconv.Itoa(videoId), z).Err()
+	if err != nil {
+		// 处理存储到 Redis 失败的情况
+		fmt.Println("存储评论到 Redis 失败:", err)
+		return err
+	}
 	return nil
 }
 
