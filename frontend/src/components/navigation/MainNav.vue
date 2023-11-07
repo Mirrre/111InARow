@@ -27,7 +27,7 @@ export default {
                 },
                 {
                     title: "热点",
-                    url: "/hot",
+                    url: "/",
                     filePath: require("../../assets/校园热点.png"),
                 },
                 {
@@ -64,18 +64,21 @@ export default {
                     case "/discover":
                         this.current = 0
                         break
-                    case "/hot":
+                    // case "/hot":
+                    //     this.current = 2
+                    //     break
+                    case "/physical":
                         this.current = 2
                         break
-                    case "/physical":
+                    case "/anime":
                         this.current = 3
                         break
-                    case "/anime":
+                    case "/game":
                         this.current = 4
                         break
-                    case "/game":
+                    case "/mine":
                         this.current = 5
-                        break
+                        break    
                 }
             },
             immediate: true // 进入页面执行一次
@@ -91,8 +94,8 @@ export default {
     text-align: center;
 
     img {
-        width: 100%;
-        height: 58px;
+        width: 70%;
+        height: 48px;
     }
 }
 
@@ -100,7 +103,7 @@ ul li {
     display: block;
     width: 84px;
     height: 36px;
-    margin: 12px 48px 0 40px;
+    margin: 30px 48px 0 40px;
     list-style: none;
     cursor: pointer;
 

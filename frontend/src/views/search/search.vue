@@ -49,6 +49,8 @@
 
 <script>
 export default {
+    name: 'searchVue',
+    // props: ["videoArr"],
     data() {
         return {
             videoArr: [],
@@ -58,9 +60,9 @@ export default {
     },
      mounted() {
         this.videoList();
-        // setInterval(()=>{
-        //     this.videoList();
-        // },1000)
+        setInterval(()=>{
+            this.videoList();
+        },1000)
     },
     methods: {
         videoList() {
@@ -70,23 +72,23 @@ export default {
             //     // this.videoArr = data.list;
             //     console.log(this.videoArr);
             // });
-            let data1 = {}
-            const userMsg = JSON.parse(localStorage.getItem('userMsg'))
-            const isLogin = localStorage.getItem('isLogin')
-            // console.log(userMsg.id);
-            if(isLogin){
-                data1 = {
-                    user_id: userMsg.id,
-                    has: 1
-                }
-            }
-            this.$http.video.allList(data1).then(({ code, data }) => {
-                if (code === 200) {
-                    // console.log(data);
-                    this.videoArr = data;
-                    // console.log(this.videoArr);
-                }
-            });
+            // let data1 = {}
+            this.videoArr = JSON.parse(localStorage.getItem('videoArr'))
+            // const isLogin = localStorage.getItem('isLogin')
+            // console.log(this.videoArr);
+            // if(isLogin){
+            //     data1 = {
+            //         user_id: userMsg.id,
+            //         has: 1
+            //     }
+            // }
+            // this.$http.video.allList(data1).then(({ code, data }) => {
+            //     if (code === 200) {
+            //         // console.log(data);
+            //         this.videoArr = data;
+            //         // console.log(this.videoArr);
+            //     }
+            // });
             
         },
         videoPlayback(index, video_url) {
@@ -144,7 +146,7 @@ export default {
         }
     },
     created() {
-        this.videoList();
+        // this.videoList();
     },
 };
 </script>

@@ -26,12 +26,35 @@ export default {
             h: "100%"
         };
     },
+     mounted() {
+        this._videoList();
+        setInterval(()=>{
+            this._videoList();
+        },300)
+    },
     methods: {
         _videoList() {
-            this.$http.video.hotList().then(({ code, data }) => {
-                console.log(data);
+            // this.$http.video.hotList().then(({ code, data }) => {
+            //     console.log(data);
+            //     if (code === 200) {
+            //         this.videoList = this.videoList.concat(data.list);
+            //     }
+            // });
+            let data1 = {}
+            const userMsg = JSON.parse(localStorage.getItem('userMsg'))
+            const isLogin = localStorage.getItem('isLogin')
+            // console.log(userMsg.id);
+            if(isLogin){
+                data1 = {
+                    user_id: userMsg.id,
+                    has: 1
+                }
+            }
+            this.$http.video.allList(data1).then(({ code, data }) => {
                 if (code === 200) {
-                    this.videoList = this.videoList.concat(data.list);
+                    // console.log(data);
+                    this.videoList = data;
+                    console.log(this.videoArr);
                 }
             });
         },

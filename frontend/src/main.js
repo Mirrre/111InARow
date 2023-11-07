@@ -13,6 +13,8 @@ import { Icon } from 'vant';
 // 轮播
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
+// 创建事件总线
+export const bus = new Vue();
 
 Vue.use(ElementUI);
 
