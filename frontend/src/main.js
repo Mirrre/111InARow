@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import http from './http'
+import store from './store'
 
 // 引入 Element UI 组件库
 import ElementUI from 'element-ui';
@@ -24,7 +25,11 @@ Vue.use(Icon);
 
 Vue.use(VueAwesomeSwiper)
 
+// 创建事件总线
+export const bus = new Vue();
+
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

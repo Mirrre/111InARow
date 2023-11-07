@@ -56,12 +56,38 @@ export default {
             timer: ""
         };
     },
+     mounted() {
+        this.videoList();
+        setInterval(()=>{
+            this.videoList();
+        },1000)
+    },
     methods: {
         videoList() {
-            this.$http.video.hotList().then(({ data }) => {
-                console.log(data);
-                this.videoArr = data.list;
+            // this.$http.video.allList().then(({ data }) => {
+            //     console.log(data);
+            //     this.videoArr = data;
+            //     // this.videoArr = data.list;
+            //     console.log(this.videoArr);
+            // });
+            let data1 = {}
+            const userMsg = JSON.parse(localStorage.getItem('userMsg'))
+            const isLogin = localStorage.getItem('isLogin')
+            // console.log(userMsg.id);
+            if(isLogin){
+                data1 = {
+                    user_id: userMsg.id,
+                    has: 1
+                }
+            }
+            this.$http.video.allList(data1).then(({ code, data }) => {
+                if (code === 200) {
+                    // console.log(data);
+                    this.videoArr = data;
+                    // console.log(this.videoArr);
+                }
             });
+            
         },
         videoPlayback(index, video_url) {
             const video = this.$refs.video[index]
@@ -171,8 +197,8 @@ export default {
     overflow: hidden;
     cursor: pointer;
     img, .video_box {
-        width: 100%;
-        height: 100%;
+        width: 280px;
+        height: 300px;
         object-fit: cover;
     }
     img {
@@ -189,10 +215,10 @@ export default {
     span {
         font-size: 16px;
         line-height: 24px;
-        color: rgba(255,255,255,.9);
+        color: black;
     }
     span:hover {
-        color: #fff;
+        color: black;
     }
 }
 .actcont-auto {
@@ -210,13 +236,13 @@ export default {
         display: inline-block;
         max-width: 120px;
         height: 100%;
-        color: rgba(255,255,255,.9);
+        color: black;
         overflow: hidden;
         text-overflow:ellipsis;
         padding-left: 10px;
     }
     .uname:hover {
-        color: rgb(242, 42, 81);
+        color: black;
     }
     .mtime {
         max-width: 120px;
