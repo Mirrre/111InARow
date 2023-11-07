@@ -54,6 +54,7 @@ type User struct {
 	TotalFavorited int    `gorm:"default:0" json:"totalFavorited"` // 获赞数量
 	WorkCount      int    `gorm:"default:0" json:"work_count"`     // 作品数
 	FavoriteCount  int    `gorm:"default:0" json:"favorite_count"` // 喜欢数
+	CollectCount   int    `gorm:"default:0" json:"collect_count"`  // 收藏数量
 
 }
 

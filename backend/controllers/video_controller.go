@@ -8,12 +8,13 @@ import (
 	"gorm.io/gorm"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 )
 
 type PublishRequest struct {
-	Title  string
-	UserId int
+	Title  string `json:"title"`
+	UserId string `json:"user_id"`
 }
 
 func Publish(c *gin.Context) {
@@ -26,8 +27,9 @@ func Publish(c *gin.Context) {
 			"status_msg":  "获取数据错误",
 		})
 		fmt.Println("获取数据错误")
+		return
 	}
-	userId := request.UserId
+	userId, err := strconv.Atoi(request.UserId)
 	title := request.Title
 	//userid, err := utils.ValidateToken(token)
 	//userId := int(userid)
@@ -90,7 +92,7 @@ func Publish(c *gin.Context) {
 
 			newVideo := models.Video{
 				Avatar:   user.Avatar,
-				UserID:   userId,
+				UserId:   userId,
 				Thumb:    coverUrl,
 				VideoUrl: videoUrl,
 				Title:    title,
@@ -105,3 +107,20 @@ func Publish(c *gin.Context) {
 		}
 	}
 }
+
+//type SearchRequest struct {
+//	Title string
+//}
+
+//func Search(c *gin.Context) {
+//	var searchRequest SearchRequest
+//	if err := c.ShouldBindJSON(&searchRequest); err != nil {
+//		c.JSON(http.StatusBadRequest, gin.H{
+//			"status_code": 1,
+//			"status_msg":  "获取数据错误",
+//		})
+//		fmt.Println("获取数据错误")
+//		return
+//	}
+//	title := searchRequest.Title
+//}

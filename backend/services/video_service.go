@@ -103,3 +103,5 @@ func UploadCover(localPath string, key string) (coverUrl string, err error) {
 	fmt.Println("上传成功，截图访问链接：", "http://s3315jx3y.hn-bkt.clouddn.com/"+key)
 	return
 }
+
+// 搜索

@@ -1,5 +1,7 @@
 package responses
 
+import "time"
+
 // LoginResponse 登录返回响应结构体
 type LoginResponse struct {
 	// 状态码，0-成功，其他值-失败
@@ -62,10 +64,8 @@ type User struct {
 	IsFollowed bool `json:"is_follow"`
 }
 
-// VideoResponse 视频返回响应结构体
-type VideoResponse struct {
-	// 本次返回的视频中，发布最早的时间，作为下次请求时的latest_time
-	NextTime int64 `json:"next_time"`
+// VideoSearchResponse 视频返回响应结构体
+type VideoSearchResponse struct {
 	// 状态码，0-成功，其他值-失败
 	StatusCode int64 `json:"status_code"`
 	// 返回状态描述
@@ -77,24 +77,46 @@ type VideoResponse struct {
 // Video 视频信息结构体
 type Video struct {
 	// 视频唯一标识
-	ID int64 `json:"id"`
-	// 视频作者信息
-	Author User `json:"author"`
+	Id int `json:"id"`
+	// 作者id
+	UserId int `json:"user_id"`
+	// 作者名称
+	UserName string `json:"username"`
+	// 作者头像
+	Avatar string `json:"avatar"`
+	// 封面地址
+	Thumb string `json:"thumb"`
+	// 视频地址
+	VideoUrl string `json:"video_url"`
+	// 发布时间
+	Mtime string `json:"mtime"`
+	// 绰号
+	NickName string `json:"nickName"`
+	// 分享的数量
+	ShareNum int `json:"share_num" gorm:"default:0;not null"`
+	// 收藏的数量
+	CollectNum int `json:"collect_num" gorm:"default:0;not null"`
+	// 评论的数量
+	CommentNum int `json:"comment_num" gorm:"default:0;not null"`
+	// 喜欢的数量
+	LikeNum int `json:"like_num" gorm:"default:0;not null"`
 	// 视频标题
 	Title string `json:"title"`
+	// 是否点赞
+	IsFollow string `json:"is_follow"`
+	// 是否收藏
+	IsFollow2 string `json:"is_follow2"`
+	// 是否关注
+	IsFollow3 string `json:"is_follow3"`
+}
 
-	// 视频封面地址
-	CoverURL string `json:"cover_url"`
-	// 视频播放地址
-	PlayURL string `json:"play_url"`
+type CommentResponse struct {
+	StatusCode int
+	StatusMsg  string
+}
 
-	// 视频的点赞总数
-	FavoriteCount int64 `json:"favorite_count"`
-	// 视频的评论总数
-	CommentCount int64 `json:"comment_count"`
-
-	// true-已点赞，false-未点赞
-	IsFavorite bool `json:"is_favorite"`
-	// true-已收藏，false-未收藏
-	IsCollect bool `json:"is_collect"`
+type CommentResItem struct {
+	Id         int       `json:"id"`
+	Content    string    `json:"content"`
+	CreateDate time.Time `json:"create_date"`
 }

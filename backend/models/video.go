@@ -6,7 +6,7 @@ import (
 
 type Video struct {
 	Id     int `json:"id"`
-	UserID int `gorm:"index:idx_user_created" json:"user_id"` // 作者id
+	UserId int `gorm:"index:idx_user_created" json:"user_id"` // 作者id
 	//User     User   `gorm:"foreignKey:UserID"`                     // 作者信息
 	UserName string `json:"username"`
 	//Title         string    `json:"title"`                                                             // 视频标题
@@ -34,7 +34,7 @@ type Video struct {
 // AfterCreate hook for the Video model.
 func (video *Video) AfterCreate(tx *gorm.DB) (err error) {
 	// 发布者的作品数 + 1
-	err = tx.Model(&User{}).Where("id = ?", video.UserID).
+	err = tx.Model(&User{}).Where("id = ?", video.UserId).
 		UpdateColumn("work_count", gorm.Expr("work_count + 1")).Error
 	if err != nil {
 		return err
@@ -45,7 +45,7 @@ func (video *Video) AfterCreate(tx *gorm.DB) (err error) {
 // AfterDelete hook for the Video model.
 func (video *Video) AfterDelete(tx *gorm.DB) (err error) {
 	// 发布者的作品数 - 1
-	err = tx.Model(&User{}).Where("id = ?", video.UserID).
+	err = tx.Model(&User{}).Where("id = ?", video.UserId).
 		UpdateColumn("work_count", gorm.Expr(
 			"CASE WHEN work_count > 0 THEN work_count - 1 ELSE 0 END")).Error
 	if err != nil {

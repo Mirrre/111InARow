@@ -25,7 +25,8 @@ func main() {
 
 	//r.POST("/user/register/", controllers.Register)
 	//r.POST("/user/login/", controllers.Login)
-	r.POST("/api/publish/action/", controllers.Publish)
+	r.POST("/api/publish/action", controllers.Publish)
+	r.POST("/api/relation/action", controllers.Follow)
 
 	err = r.Run(":8901")
 	if err != nil {
