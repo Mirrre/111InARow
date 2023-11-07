@@ -7,7 +7,8 @@
             <li v-for="(item, index) in navArr" :key="item.index">
                 <router-link :to="item.url">
                     <img :src="item.filePath" alt="" class="icon" :class="{ active: index == current }" />
-                    <span :class="{ active: index == current }">{{ item.title }}</span>
+                    <span :class="{ active:  index == current }">{{ item.title }}</span>
+                    <!-- {{ index == current }} -->
                 </router-link>
             </li>
         </ul>
@@ -27,28 +28,28 @@ export default {
                 },
                 {
                     title: "热点",
-                    url: "/hot",
+                    url: "/",
                     filePath: require("../../assets/校园热点.png"),
                 },
                 {
                     title: "体育",
                     url: '/physical',
-                    filePath:require("../../assets/体育-01.png")
+                    filePath: require("../../assets/体育-01.png")
                 },
                 {
                     title: "动漫",
                     url: '/anime',
-                    filePath:require("../../assets/golang.png")
+                    filePath: require("../../assets/golang.png")
                 },
                 {
                     title: "游戏",
                     url: '/game',
-                    filePath:require("../../assets/游戏机.png")
+                    filePath: require("../../assets/游戏机.png")
                 },
                 {
                     title: "我的",
                     url: '/mine',
-                    filePath:require("../../assets/我的.png")
+                    filePath: require("../../assets/我的.png")
                 },
             ],
         };
@@ -57,6 +58,7 @@ export default {
         // 监听路由：用于控制导航栏的选中状态
         $route: {
             handler(newVal) {
+                this.current = ""; // 重置 current
                 switch (newVal.path) {
                     case "/":
                         this.current = 1
@@ -64,9 +66,9 @@ export default {
                     case "/discover":
                         this.current = 0
                         break
-                    case "/hot":
-                        this.current = 2
-                        break
+                    // case "/hot":
+                    //     this.current = 2
+                    //     break
                     case "/physical":
                         this.current = 3
                         break
@@ -76,10 +78,15 @@ export default {
                     case "/game":
                         this.current = 5
                         break
+                    case "/mine":
+                        this.current = 6
+                        break
                 }
             },
-            immediate: true // 进入页面执行一次
+            immediate: true ,// 进入页面执行一次
+            
         }
+        
     }
 };
 </script>
@@ -124,7 +131,6 @@ li:hover a {
 }
 
 li:hover .icon {
-    opacity: 1;
     opacity: 1;
 }
 

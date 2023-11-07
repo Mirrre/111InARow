@@ -23,7 +23,7 @@ const routes = [
     children: [
       // path 为空，表示默认展示该组件
       { path: "Discover", component: Discover }, // 首页
-      { path: "Hot", component: Hot }, // 热点
+      { path: "", component: Hot }, // 热点
       { path: "Physical", component: Physical }, // 体育
       { path: "Anime", component: Anime }, // 动漫
       { path: "Game", component: Game }, // 游戏
