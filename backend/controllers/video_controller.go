@@ -80,7 +80,7 @@ func Publish(c *gin.Context) {
 		if err == nil {
 			db := c.MustGet("db").(*gorm.DB)
 			var user models.User
-			result := db.First(&user, "user_id = ?", userId)
+			result := db.First(&user, "id = ?", userId)
 			if result.Error != nil {
 				c.JSON(http.StatusBadRequest, gin.H{
 					"status_code": 1,

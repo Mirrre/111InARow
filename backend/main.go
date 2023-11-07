@@ -28,7 +28,7 @@ func main() {
 	r.POST("/api/publish/action", controllers.Publish)
 	r.POST("/api/relation/action", controllers.Follow)
 
-	err = r.Run(":8901")
+	err = r.Run(":8081")
 	if err != nil {
 		panic("启动服务失败")
 	}
