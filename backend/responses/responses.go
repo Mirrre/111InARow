@@ -1,7 +1,5 @@
 package responses
 
-import "time"
-
 // LoginResponse 登录返回响应结构体
 type LoginResponse struct {
 	// 状态码，0-成功，其他值-失败
@@ -116,9 +114,7 @@ type CommentResponse struct {
 }
 
 type CommentResItem struct {
-	Id         int       `json:"id"`
-	Content    string    `json:"content"`
-	CreateDate time.Time `json:"create_date"`
+	Content string `json:"content"`
 }
 
 type CommentListResponse struct {

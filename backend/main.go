@@ -22,11 +22,13 @@ func main() {
 	r := config.InitGinEngine(db)
 
 	//r.GET("/user/", controllers.GetUser)
+	r.GET("/api/comment/list", controllers.List)
 
 	//r.POST("/user/register/", controllers.Register)
 	//r.POST("/user/login/", controllers.Login)
 	r.POST("/api/publish/action", controllers.Publish)
 	r.POST("/api/relation/action", controllers.Follow)
+	r.POST("/api/comment/action", controllers.Comment)
 
 	err = r.Run(":8081")
 	if err != nil {
