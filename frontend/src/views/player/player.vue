@@ -54,7 +54,7 @@ export default {
                 if (code === 200) {
                     // console.log(data);
                     this.videoList = data;
-                    // console.log(this.videoArr);
+                    console.log(this.videoArr);
                 }
             });
         },
@@ -66,27 +66,26 @@ export default {
     },
 };
 </script>
+
 <style lang="less" scoped>
 // 关闭按钮
 .to-back {
-    width: 60px;
-    height: 60px;
+    width: 64px;
+    height: 64px;
     background-color: #fff;
     border-radius: 50%;
     position: absolute;
-    top: 5px;
-    left: 50px;
+    top: 40px;
+    left: 40px;
     z-index: 1;
     text-align: center;
     opacity: 0.5;
-
     i {
         color: #000;
         font-size: 30px;
         font-weight: bold;
         line-height: 64px;
     }
-
     &:hover {
         opacity: 1;
     }

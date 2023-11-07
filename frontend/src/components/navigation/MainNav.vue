@@ -7,8 +7,7 @@
             <li v-for="(item, index) in navArr" :key="item.index">
                 <router-link :to="item.url">
                     <img :src="item.filePath" alt="" class="icon" :class="{ active: index == current }" />
-                    <span :class="{ active:  index == current }">{{ item.title }}</span>
-                    <!-- {{ index == current }} -->
+                    <span :class="{ active: index == current }">{{ item.title }}</span>
                 </router-link>
             </li>
         </ul>
@@ -34,22 +33,22 @@ export default {
                 {
                     title: "体育",
                     url: '/physical',
-                    filePath: require("../../assets/体育-01.png")
+                    filePath:require("../../assets/体育-01.png")
                 },
                 {
                     title: "动漫",
                     url: '/anime',
-                    filePath: require("../../assets/golang.png")
+                    filePath:require("../../assets/golang.png")
                 },
                 {
                     title: "游戏",
                     url: '/game',
-                    filePath: require("../../assets/游戏机.png")
+                    filePath:require("../../assets/游戏机.png")
                 },
                 {
                     title: "我的",
                     url: '/mine',
-                    filePath: require("../../assets/我的.png")
+                    filePath:require("../../assets/我的.png")
                 },
             ],
         };
@@ -58,7 +57,6 @@ export default {
         // 监听路由：用于控制导航栏的选中状态
         $route: {
             handler(newVal) {
-                this.current = ""; // 重置 current
                 switch (newVal.path) {
                     case "/":
                         this.current = 1
@@ -70,23 +68,21 @@ export default {
                     //     this.current = 2
                     //     break
                     case "/physical":
-                        this.current = 3
+                        this.current = 2
                         break
                     case "/anime":
-                        this.current = 4
+                        this.current = 3
                         break
                     case "/game":
-                        this.current = 5
+                        this.current = 4
                         break
                     case "/mine":
-                        this.current = 6
-                        break
+                        this.current = 5
+                        break    
                 }
             },
-            immediate: true ,// 进入页面执行一次
-            
+            immediate: true // 进入页面执行一次
         }
-        
     }
 };
 </script>
@@ -98,8 +94,8 @@ export default {
     text-align: center;
 
     img {
-        width: 100%;
-        height: 58px;
+        width: 70%;
+        height: 48px;
     }
 }
 
@@ -107,7 +103,7 @@ ul li {
     display: block;
     width: 84px;
     height: 36px;
-    margin: 12px 48px 0 40px;
+    margin: 30px 48px 0 40px;
     list-style: none;
     cursor: pointer;
 
@@ -131,6 +127,7 @@ li:hover a {
 }
 
 li:hover .icon {
+    opacity: 1;
     opacity: 1;
 }
 

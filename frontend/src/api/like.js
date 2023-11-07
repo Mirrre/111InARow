@@ -14,6 +14,9 @@ const like = {
     getLikeVideoByUser(data){
         return axios.post('/like_video/getLikeVideoByUser', data)
     },
+    getCollectVideoByUser(data){
+        return axios.post('/collect_video/getCollectVideoByUser', data)
+    },
 } 
 export default like
 

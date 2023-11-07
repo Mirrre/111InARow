@@ -90,7 +90,7 @@
 <script >
 import { bus } from "@/main.js"; // 导入事件总线
 import { Login, Register } from '@/api/login.js'
-import layui from 'vue-lay'
+// import layui from 'vue-lay'
 import { upLoadVideo } from '@/api/video.js'
 
 export default {

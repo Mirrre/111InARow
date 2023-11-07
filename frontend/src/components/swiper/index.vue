@@ -150,18 +150,13 @@
 
 <script>
 import { Like, isLike } from "@/api/like.js";
-// 导入一个节流函数库，例如 lodash.throttle
-import throttle from 'lodash/throttle';
-import debounce from 'lodash/debounce';
 export default {
   props: ["videoList", "innerWidth", "innerHeight"],
   data() {
     return {
+      handlingMouseWheel: false,
       swiperOptions: {
         direction: "vertical",
-        mousewheel: {
-          invert: true,
-        },
         mousewheel: true,
         navigation: {
           nextEl: ".swiper-button-next",
@@ -176,8 +171,9 @@ export default {
     },
   },
   mounted() {
-    // 使用 debounce 包装鼠标滚轮事件处理函数，设置等待时间为0，以确保立即响应事件
-    this.handleMouseWheelDebounced = debounce(this.handleMouseWheel, 0);
+    // this.isShowRed(item);
+     // 使用 debounce 包装鼠标滚轮事件处理函数，设置等待时间为0，以确保立即响应事件
+    // this.handleMouseWheelDebounced = debounce(this.handleMouseWheel, 0);
     // 添加键盘时间监听器
     document.addEventListener('keydown', this.handleKeyDown)
 
@@ -185,38 +181,6 @@ export default {
     window.addEventListener('mousewheel', this.handleMouseWheelThrottled);
   },
   methods: {
-      collect(item) {
-      const userMsg = JSON.parse(localStorage.getItem('userMsg'))  
-      const data1 = {
-        user_id: userMsg.id,
-        video_id: item.id,
-      };
-      let result = [];
-      this.$http.collect.isCollect(data1).then(({ code, data }) => {
-        if (code === 200) {
-          console.log(data);
-          result = data;
-          if (result.length != 0) {
-          console.log(1);
-            this.$http.collect.deleCollect(data1).then(({ code, data }) => {
-            if (code === 200) {
-            // this.videoList = this.videoList.concat(data);
-            console.log(data);
-            }
-        });
-      } else {
-          console.log(2);
-                console.log(data1);
-                this.$http.collect.Collect(data1).then(({ code, data }) => {
-                if (code === 200) {
-                // this.videoList = this.videoList.concat(data);
-                console.log(data);
-                }
-            });
-      }
-        }
-      });
-    },
     handleKeyDown(event) {
       switch (event.key) {
         case 'ArrowUp':
@@ -254,6 +218,39 @@ export default {
     // 处理完成后重置标志位
     this.handlingMouseWheel = false;
   },
+
+      collect(item) {
+      const userMsg = JSON.parse(localStorage.getItem('userMsg'))  
+      const data1 = {
+        user_id: userMsg.id,
+        video_id: item.id,
+      };
+      let result = [];
+      this.$http.collect.isCollect(data1).then(({ code, data }) => {
+        if (code === 200) {
+          console.log(data);
+          result = data;
+          if (result.length != 0) {
+          console.log(1);
+            this.$http.collect.deleCollect(data1).then(({ code, data }) => {
+            if (code === 200) {
+            // this.videoList = this.videoList.concat(data);
+            console.log(data);
+            }
+        });
+      } else {
+          console.log(2);
+                console.log(data1);
+                this.$http.collect.Collect(data1).then(({ code, data }) => {
+                if (code === 200) {
+                // this.videoList = this.videoList.concat(data);
+                console.log(data);
+                }
+            });
+      }
+        }
+      });
+    },
     like(item) {
       const userMsg = JSON.parse(localStorage.getItem('userMsg'))  
       const data1 = {
