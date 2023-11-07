@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // 请求根路径
-const baseURL = axios.create({ baseURL: 'http://localhost:8080' })
+const baseURL = axios.create({ baseURL: 'http://localhost:8901/api' })
 
 baseURL.interceptors.request.use((response) => {
     return response;

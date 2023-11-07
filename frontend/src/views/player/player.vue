@@ -26,12 +26,35 @@ export default {
             h: "100%"
         };
     },
+     mounted() {
+        this._videoList();
+        setInterval(()=>{
+            this._videoList();
+        },300)
+    },
     methods: {
         _videoList() {
-            this.$http.video.hotList().then(({ code, data }) => {
-                console.log(data);
+            // this.$http.video.hotList().then(({ code, data }) => {
+            //     console.log(data);
+            //     if (code === 200) {
+            //         this.videoList = this.videoList.concat(data.list);
+            //     }
+            // });
+            let data1 = {}
+            const userMsg = JSON.parse(localStorage.getItem('userMsg'))
+            const isLogin = localStorage.getItem('isLogin')
+            // console.log(userMsg.id);
+            if(isLogin){
+                data1 = {
+                    user_id: userMsg.id,
+                    has: 1
+                }
+            }
+            this.$http.video.allList(data1).then(({ code, data }) => {
                 if (code === 200) {
-                    this.videoList = this.videoList.concat(data.list);
+                    // console.log(data);
+                    this.videoList = data;
+                    // console.log(this.videoArr);
                 }
             });
         },
@@ -43,26 +66,27 @@ export default {
     },
 };
 </script>
-
 <style lang="less" scoped>
 // 关闭按钮
 .to-back {
-    width: 64px;
-    height: 64px;
+    width: 60px;
+    height: 60px;
     background-color: #fff;
     border-radius: 50%;
     position: absolute;
-    top: 40px;
-    left: 40px;
+    top: 5px;
+    left: 50px;
     z-index: 1;
     text-align: center;
     opacity: 0.5;
+
     i {
         color: #000;
         font-size: 30px;
         font-weight: bold;
         line-height: 64px;
     }
+
     &:hover {
         opacity: 1;
     }

@@ -30,7 +30,7 @@ export default {
 
 <style lang="less" scoped>
 .home {
-    color: #fff;
+    color: black;
     .header-content {
         position: fixed;
         // position: absolute;
