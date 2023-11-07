@@ -6,10 +6,20 @@ import { AllVideoDao } from '../dao/AllVideoDao';
 export default class CollectVideoController {
   private readonly collect_videoDao = new CollectVideoDao();
 
+  @Post('/getCollectVideoByUser')
+  async getCollectVideoByUser(@Body() body) {
+    // console.log(body);
+    const sql = `SELECT videos.* FROM videos LEFT JOIN collect_video ON videos.id = collect_video.video_id where collect_video.user_id = ?`
+    const data = await AllVideoDao.query(sql,[body.user_id])
+    // console.log(data);
+    
+    return data
+  }
+
   @Post('/deleteCollectVideoByLimit')
   async deleteCollectVideoByLimit(@Body() body) {
     // console.log(body);
-    const sql2 = `UPDATE all_video SET collect_num = collect_num - 1 WHERE id = ?`
+    const sql2 = `UPDATE videos SET collect_num = collect_num - 1 WHERE id = ?`
     const id = body.video_id
     await AllVideoDao.query(sql2,[id])
     const sql = `delete  from collect_video where user_id = ? and video_id = ?`
@@ -26,7 +36,7 @@ export default class CollectVideoController {
 
   @Post('/addCollectVideo')
   async addCollectVideo(@Body() body) {
-    const sql = `UPDATE all_video SET collect_num = collect_num + 1 WHERE id = ?`
+    const sql = `UPDATE videos SET collect_num = collect_num + 1 WHERE id = ?`
     const id = body.video_id
     await AllVideoDao.query(sql,[id])
     return await this.collect_videoDao.insert(body);

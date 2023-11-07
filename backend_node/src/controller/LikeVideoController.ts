@@ -9,17 +9,17 @@ export default class LikeVideoController {
   @Post('/getLikeVideoByUser')
   async getLikeVideoByUser(@Body() body) {
     // console.log(body);
-    const sql = `SELECT all_video.* FROM all_video LEFT JOIN like_video ON all_video.id = like_video.video_id where like_video.user_id = ?`
+    const sql = `SELECT videos.* FROM videos LEFT JOIN like_video ON videos.id = like_video.video_id where like_video.user_id = ?`
     const data = await LikeVideoDao.query(sql,[body.user_id])
     // console.log(data);
     
-    return await LikeVideoDao.query(sql,[body.user_id])
+    return data
   }
 
   @Post('/deleteLikeVideoByLimit')
   async deleteLikeVideoByLimit(@Body() body) {
     // console.log(body);
-    const sql2 = `UPDATE all_video SET like_num = like_num - 1 WHERE id = ?`
+    const sql2 = `UPDATE videos SET like_num = like_num - 1 WHERE id = ?`
     const id = body.video_id
     await AllVideoDao.query(sql2,[id])
     const sql = `delete  from like_video where user_id = ? and video_id = ?`
@@ -37,7 +37,7 @@ export default class LikeVideoController {
   @Post('/addLikeVideo')
   async addLikeVideo(@Body() body) {
     // console.log(body);
-    const sql = `UPDATE all_video SET like_num = like_num + 1 WHERE id = ?`
+    const sql = `UPDATE videos SET like_num = like_num + 1 WHERE id = ?`
     const id = body.video_id
     await AllVideoDao.query(sql,[id])
     return await this.like_videoDao.insert(body);

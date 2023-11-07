@@ -7,13 +7,13 @@ export default class UsersController {
 
   @Post('/login')
   async findUserByUsername(@Body() body) {
-    console.log(body);
+    // console.log(body);
     return await this.usersDao.findUserByUsername(body.username,body.password);
   }
 
   @Post('/register')
   async addUsers(@Body() body) {
-    console.log(body);
+    // console.log(body);
     await this.usersDao.insert(body);
     const result2 = await this.usersDao.findUserByUsername(body.username,body.password);
     return result2;

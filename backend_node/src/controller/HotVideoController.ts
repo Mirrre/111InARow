@@ -11,6 +11,8 @@ export default class HotVideoController {
   async getHotVideo(@Body() body) {
     // console.log(body);
     const result2 = await this.hot_videoDao.getHotVideo();
+    // console.log(result2);
+    
     if('has' in body){
         const sql = `select * from like_video where user_id = ?`
         const  result1 =  await LikeVideoDao.query(sql,[body.user_id])
