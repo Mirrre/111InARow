@@ -21,12 +21,14 @@ func main() {
 	// 初始化路由函数
 	r := config.InitGinEngine(db)
 
-	r.GET("/user/", controllers.GetUser)
+	//r.GET("/user/", controllers.GetUser)
 
-	r.POST("/user/register/", controllers.Register)
-	r.POST("/user/login/", controllers.Login)
+	//r.POST("/user/register/", controllers.Register)
+	//r.POST("/user/login/", controllers.Login)
+	r.POST("/api/publish/action", controllers.Publish)
+	r.POST("/api/relation/action", controllers.Follow)
 
-	err = r.Run(":8080")
+	err = r.Run(":8081")
 	if err != nil {
 		panic("启动服务失败")
 	}
