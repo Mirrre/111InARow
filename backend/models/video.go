@@ -5,17 +5,9 @@ import (
 )
 
 type Video struct {
-	Id     int `json:"id"`
-	UserId int `gorm:"index:idx_user_created" json:"user_id"` // 作者id
-	//User     User   `gorm:"foreignKey:UserID"`                     // 作者信息
-	UserName string `json:"username"`
-	//Title         string    `json:"title"`                                                             // 视频标题
-	//PlayUrl       string    `json:"play_url"`                                                          // 视频地址
-	//CoverUrl      string    `json:"cover_url"`                                                         // 视频封面地址
-	//FavoriteCount int      `gorm:"default:0;not null" json:"favorite_count"`                          // 点赞人数
-	//CommentCount  int      `gorm:"default:0;not null" json:"comment_count"`                           // 评论人数
-	//CollectCount  int      `gorm:"default:0;not null" json:"collect_count"`                           // 收藏人数
-	//PublishTime   time.Time `gorm:"index:idx_publish_time;index:idx_user_created" json:"published_at"` // 发布时间
+	Id         int    `json:"id"`
+	UserId     int    `gorm:"index:idx_user_created" json:"user_id"` // 作者id
+	UserName   string `json:"username" gorm:"column:username"`
 	Avatar     string `json:"avatar"`
 	Thumb      string `json:"thumb"`
 	VideoUrl   string `json:"video_url"`

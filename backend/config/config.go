@@ -18,7 +18,7 @@ func InitDatabase(dsn string) (*gorm.DB, error) {
 		return nil, err
 	}
 	// 自动将表单模型结构体迁移成数据库表单
-	err = db.AutoMigrate(&models.User{}, &models.Relation{})
+	err = db.AutoMigrate(&models.User{}, &models.Relation{}, &models.Comment{})
 	if err != nil {
 		return nil, err
 	}
